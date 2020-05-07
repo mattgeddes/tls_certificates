@@ -2,7 +2,7 @@
 - name: Private keys
   openssl_privatekey:
       path: "{{ cert.value.privatekey_file }}"
-      cipher: "{{ cert.value.cipher | default( 'auto' ) }}"
+      cipher: "{{ cert.value.cipher | default( omit ) }}"
       passphrase: "{{ cert.value.privatekey_passphrase | default( omit ) }}"
       size: "{{ cert.value.size | default( '4096' ) }}"
       state: "{{ cert.value.state | default( 'present' ) }}"
@@ -15,6 +15,9 @@
       path: "{{ cert.value.publickey_file }}"
       privatekey_path: "{{ cert.value.privatekey_file }}"
       privatekey_passphrase: "{{ cert.value.passphrase | default( omit ) }}"
+  loop: "{{ tls_certificates | dict2items }}"
+  loop_control:
+      loop_var: cert
 - name: Certificate Signing Requests
   openssl_csr:
       path: "{{ cert.value.csr_file }}"
@@ -22,11 +25,14 @@
       privatekey_passphrase:
           "{{ cert.value.privatekey_passphrase | default( omit ) }}"
       organization_name: "{{ cert.value.organization_name }}"
-      organization_unit_name:
-          "{{ cert.value.organization_unit_name | default( '' ) }}"
+      organizational_unit_name:
+          "{{ cert.value.organizational_unit_name | default( '' ) }}"
       country_name: "{{ cert.value.country_name }}"
       state_or_province_name: "{{ cert.value.state_or_province_name }}"
       locality_name: "{{ cert.value.locality_name }}"
       common_name: "{{ cert.value.common_name }}"
       email_address: "{{ cert.value.email_address | default( '' ) }}"
-      subject_alt_name: "{{ alt_names }}"
+      subject_alt_name: "{{ cert.value.alt_names }}"
+  loop: "{{ tls_certificates | dict2items }}"
+  loop_control:
+      loop_var: cert

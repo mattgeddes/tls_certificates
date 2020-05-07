@@ -1,5 +1,8 @@
 ---
 - hosts: localhost
-  remote_user: root
+  become: no
+  connection: local
+  vars_files:
+      - ./vars.yml
   roles:
-    - tls_certificates
+    - mattgeddes.tls_certificates
