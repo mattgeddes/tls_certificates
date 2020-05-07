@@ -7,7 +7,7 @@
       size: "{{ cert.value.size | default( '4096' ) }}"
       state: "{{ cert.value.state | default( 'present ) }}"
       type: "{{ cert.value.type | default( 'RSA' ) }}"
-  loop: "{{ tls_certificates | dict2items}}"
+  loop: "{{ tls_certificates | dict2items }}"
   loop_control:
       loop_var: cert
 - name: Public keys
