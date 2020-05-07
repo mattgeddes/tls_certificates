@@ -1,0 +1,20 @@
+---
+tls_certificate_directory: "/srv/certificates"
+tls_certificates:
+    domain_imap:
+        # privatekey_passphrase: xxxxx
+        privatekey_file: "/tmp/domain.key"
+        publickey_file: "/tmp/domain.pub"
+        csr_file: "/tmp/domain.csr"
+        size: 4096
+        state: present
+        type: RSA
+        organization_name: "Platina Systems Corporation"
+        organizational_unit_name: "Infrastructure"
+        country_name: US
+        state_or_province_name: CA
+        locality_name: Santa Clara
+        common_name: incomplete.io
+        alt_names:
+            - "DNS: incomplete.io"
+            - "DNS: www.incomplete.io"
